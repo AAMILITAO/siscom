@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: produtoserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - name: produtoserver
+        image: andre23/api-produto:v2
+        env:
+        - name: MONGODB_URI
+          value: 'mongodb://service-db:27017/financial'
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: server
+  ports:
+    - name: http
+      port: 8080
+      nodePort: 30090
+  type: NodePort

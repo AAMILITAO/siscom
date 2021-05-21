@@ -1,0 +1,33 @@
+version: "3.7"
+
+networks: 
+  api-network:
+    driver: bridge
+volumes: 
+  mongodb-vol:
+    
+services: 
+  mongodb:
+    image: mongo
+    volumes: 
+     - mongodb-vol:/data/db
+    ports:
+     - "27017:27017"    
+    networks: 
+     - api-network
+    environment: 
+     MONGO_INITDB_ROOT_USERNAME: mongouser
+     MONGO_INITDB_ROOT_PASSWORD: mongopwd
+
+  api:
+    image: andre23/api-produto:v3
+    ports:
+     - "8080:8080"
+    networks: 
+     - api-network
+    depends_on:
+      - "mongodb" 
+    environment: 
+     MONGODB_URI: mongodb://mongouser:mongopwd@mongodb:27017/admin
+        
+  
