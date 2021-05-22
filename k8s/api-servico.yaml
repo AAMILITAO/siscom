@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: produtoserver
-        image: andre23/api-produto:v2
+        image: andre23/api-produto:v3
         env:
         - name: MONGODB_URI
           value: 'mongodb://service-db:27017/financial'
